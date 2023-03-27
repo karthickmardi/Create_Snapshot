@@ -1,13 +1,21 @@
 import boto3
 import sys
 
-# Set up the EC2 client
-ec2 = boto3.client('ec2')
 
 # Define the volume ID and snapshot description
 volume_id = sys.argv[1] #arguement 1 is volume id 
 snapshot_description = sys.argv[2] #Arguemtn 2 is 'YOUR_SNAPSHOT_DESCRIPTION'
 rentention_period = sys.argv[3]
+
+region = sys.argv[4]
+access_key = sys.argv[5]
+secret_key = sys.argv[6]
+
+# Set up the EC2 client
+ec2 = boto3.client('ec2' ,region_name=region ,aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key)
+
+
 
 # Define the tags in a dictionary
 tags = {
@@ -34,4 +42,3 @@ ec2.create_tags(
     Tags=[{'Key': key, 'Value': value} for key, value in tags.items()]
 )
 #print(f"Snapshot {snapshot_id} tagged with {tags}.")
-
